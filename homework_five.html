@@ -1,0 +1,95 @@
+ <canvas id="canvas" width = "800" height = "800"> </canvas> 
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+  
+         const colors = [
+            "#2E2840",
+            "#4481A6",
+            "#589FBF",
+            "#82C5D9",
+            "#CEEBF2"
+      ];
+  
+      const arr = [];
+    
+   
+      const eachItem = function(arr, func){
+          const foo = function(i){
+              if (i === arr.length){
+                  return;
+          }
+          
+              func(arr[i]);
+          
+              foo(i + 1);
+          };
+          foo(0);
+      };
+    
+     const rand = function(num) {
+          return Math.floor(Math.random() * num)+1; 
+      };
+
+      const createPoints = function(count, convW, convH) {
+       
+          if(count === 0) {
+              return;
+          }
+
+          arr.push({
+              x       : rand(convW - 10), 
+              y       : rand(convH - 10), 
+              width   : 10,
+              height  : 10,
+              xDelta  : 5,
+              yDelta  : 5,
+              color   : colors[rand(6)-1]   
+            });
+      
+          createPoints(count-1, convW, convH);
+      };
+
+
+      const draw = function() {
+          ctx.clearRect(0,0, canvas.width, canvas.height);
+          eachItem(arr, function (arr) {
+
+              ctx.fillStyle = arr.color;
+              ctx.fillRect(arr.x, arr.y, arr.width, arr.height);
+
+          });
+      };
+
+      const updateData = function() {
+          eachItem(arr, function(arr) {
+              if (arr.x >= canvas.width - arr.width) {
+                  arr.xDelta = - rand(15); 
+              }
+                else if (arr.x <= 0) {
+                    arr.xDelta = rand(5); 
+                }
+        
+              if (arr.y >= canvas.height - arr.height){
+              arr.yDelta = - rand(10); 
+              } 
+                else if(arr.y <= 0) {
+                    arr.yDelta = rand(15); 
+                }
+              arr.x += arr.xDelta;
+              arr.y += arr.yDelta;
+          });
+      };
+      
+    
+      const loop = function() {
+          draw();
+          updateData();
+          requestAnimationFrame(loop);
+      };
+
+
+     createPoints(100, canvas.width, canvas.height);
+     loop();
+    </script>
+   

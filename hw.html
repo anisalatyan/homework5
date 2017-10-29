@@ -1,0 +1,186 @@
+<style>
+        #canvas{
+                border: solid 1px
+        }
+</style>
+<canvas id="canvas" width=800 height=800> </canvas>
+
+<script>
+        const canvas=document.getElementById("canvas");
+        const ctx=canvas.getContext("2d");
+//https://previews.123rf.com/images/alexmstudio/alexmstudio1508/alexmstudio150800012/43889983-Cartoon-Game-Background-Stock-Vector.jpg
+
+
+                const base_image = new Image();
+                base_image.src = 'https://previews.123rf.com/images/alexmstudio/alexmstudio1508/alexmstudio150800012/43889983-Cartoon-Game-Background-Stock-Vector.jpg';
+
+                const mario= new Image();
+                mario.src="https://media.nintendo.com/nintendo/bin/5H164jJPiotlaTwpDmk0p-7CLtEl6Y_S/U9GsEP4CdmSaWMacSqjv1ftJ6q4VVe2n.png";
+
+                const badGuy= new Image();
+                badGuy.src="https://upload.wikimedia.org/wikipedia/en/c/ce/Goomba.PNG"
+
+                const gameData ={
+                        supermario:{
+                                x:10,
+                                y:400,
+                                img: mario,
+                                width:150,
+                                height:150,
+                                xDelta:3,
+                                yDelta:3
+                         },
+                        evilA:{
+                                x:400,
+                                y:350,
+                                img:badGuy,
+                                width:50,
+                                height:50,
+                                xDelta:3,
+                                yDelta:3
+
+                        },
+                        evilB:{
+                                x:700,
+                                y:150,
+                                img:badGuy,
+                                width:50,
+                                height:50,
+                                xDelta:3,
+                                yDelta:3
+
+                        },
+                        evilC:{
+                                x:350,
+                                y:50,
+                                img:badGuy,
+                                width:50,
+                                height:50,
+                                xDelta:3,
+                                yDelta:3
+
+                        }
+                }
+
+
+
+        const draw=function(){
+                ctx.drawImage(base_image, 0, 0,canvas.width,canvas.height);
+        const hero=gameData.supermario
+                ctx.drawImage(hero.img, hero.x, hero.y, hero.width, hero.height);
+        const bad1=gameData.evilA;
+                ctx.drawImage(bad1.img, bad1.x, bad1.y, bad1.width, bad1.height);
+        const bad2=gameData.evilB;
+                ctx.drawImage(bad2.img, bad2.x, bad2.y, bad2.width, bad2.height);
+        const bad3=gameData.evilC;
+                ctx.drawImage(bad3.img, bad3.x, bad3.y, bad3.width, bad3.height);
+
+
+        }
+
+    const updateData=function() {
+        gameData.evilA.y=gameData.evilA.y+gameData.evilA.yDelta;
+        gameData.evilA.x=gameData.evilA.x+gameData.evilA.xDelta;
+        if(gameData.evilA.y> 500) {
+                         gameData.evilA.yDelta=-gameData.evilA.yDelta;
+                }
+                if (gameData.evilA.x>700){
+                        gameData.evilA.xDelta=-gameData.evilA.xDelta
+                }
+                if (gameData.evilA.y<0){
+                        gameData.evilA.yDelta=-gameData.evilA.yDelta
+                }
+                if (gameData.evilA.x<0){
+                        gameData.evilA.xDelta=-gameData.evilA.xDelta
+                }
+                gameData.evilB.y=gameData.evilB.y+gameData.evilB.yDelta;
+        gameData.evilB.x=gameData.evilB.x+gameData.evilB.xDelta;
+        if(gameData.evilB.y> 500) {
+                         gameData.evilB.yDelta=-gameData.evilB.yDelta;
+                }
+                if (gameData.evilB.x>700){
+                        gameData.evilB.xDelta=-gameData.evilB.xDelta
+                }
+                if (gameData.evilB.y<0){
+                        gameData.evilB.yDelta=-gameData.evilB.yDelta
+                }
+                if (gameData.evilB.x<0){
+                        gameData.evilB.xDelta=-gameData.evilB.xDelta
+                }
+                gameData.evilC.y=gameData.evilC.y+gameData.evilC.yDelta;
+        gameData.evilC.x=gameData.evilC.x+gameData.evilC.xDelta;
+        if(gameData.evilC.y> 500) {
+                         gameData.evilC.yDelta=-gameData.evilC.yDelta;
+                }
+                if (gameData.evilC.x>700){
+                        gameData.evilC.xDelta=-gameData.evilC.xDelta
+                }
+                if (gameData.evilC.y<0){
+                        gameData.evilC.yDelta=-gameData.evilC.yDelta
+                }
+                if (gameData.evilC.x<0){
+                        gameData.evilC.xDelta=-gameData.evilC.xDelta
+                }
+    }
+
+
+
+
+        const loop=function(){
+                draw();
+                updateData();
+                if(gameData.supermario.x<gameData.evilB.x && gameData.evilB.x<gameData.supermario.x+gameData.supermario.width
+                        && gameData.supermario.y<gameData.evilB.y && gameData.evilB.y<gameData.supermario.y+gameData.supermario.height   ){
+                        alert("Game OVER")
+                }
+                if(gameData.supermario.x<gameData.evilA.x && gameData.evilA.x<gameData.supermario.x+gameData.supermario.width
+                        && gameData.supermario.y<gameData.evilA.y && gameData.evilA.y<gameData.supermario.y+gameData.supermario.height   ){
+                        alert("Game OVER")
+                }
+                if(gameData.supermario.x<gameData.evilC.x && gameData.evilC.x<gameData.supermario.x+gameData.supermario.width
+                        && gameData.supermario.y<gameData.evilC.y && gameData.evilC.y<gameData.supermario.y+gameData.supermario.height   ){
+                        alert("Game OVER")
+                }
+                requestAnimationFrame(loop);
+        }
+
+
+        loop();
+
+        const leftKey = 37;
+        const upKey = 38;
+        const rightKey = 39;
+        const downKey = 40;
+
+document.addEventListener('keydown', function(event) {
+        const heroo=gameData.supermario;
+        if(event.keyCode === upKey) {
+       heroo.y=heroo.y-heroo.yDelta;
+        }
+        if(event.keyCode === downKey) {
+       heroo.y=heroo.y+heroo.yDelta;
+    }
+
+    if(event.keyCode === rightKey) {
+       heroo.x=heroo.x+heroo.xDelta;
+    }
+
+    if(event.keyCode === leftKey) {
+       heroo.x=heroo.x-heroo.xDelta;
+    }
+
+    if (heroo.y>=400){
+        heroo.y=400
+    }
+    if (heroo.x>=600){
+        heroo.x=600
+    }
+    if (heroo.x<=0){
+        heroo.x=0
+    }
+    if (heroo.y<=0){
+        heroo.y=0
+    }
+}, false);
+
+</script>
